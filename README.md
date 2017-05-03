@@ -3,6 +3,10 @@
 This gem provides instruments for benchmarking, tracing, and debugging Factory
 Girl models.
 
+- [Benchmark one Factory](#benchmarking-one-factory-girl-model)
+- [Benchmark all Factories](#benchmarking-all-factory-girl-models)
+- [Trace Factory Girl calls](#tracing-factory-girl-calls)
+
 ## Setup
 
 Add the following to your Gemfile:
@@ -69,23 +73,28 @@ The above snippet will output the following tree:
 |  |  (0.4ms)  INSERT INTO "users" ("name", "username") VALUES (?, ?)  [["name", "Peter Parker"], ["username", "spiderman"]]
 |  |  (2.3ms)  commit transaction
 |  └ (finish) create :user [0.010s]
-|
 |  ┌ (start) create :article
 |  |  ┌ (start) create :user
 |  |  |  (0.1ms)  begin transaction
 |  |  |  (0.3ms)  INSERT INTO "users" ("name", "username") VALUES (?, ?)  [["name", "Peter Parker"], ["username", "spiderman"]]
 |  |  |  (1.8ms)  commit transaction
 |  |  └ (finish) create :user [0.007s]
-|  |
 |  |  (0.1ms)  begin transaction
 |  |  (0.2ms)  INSERT INTO "articles" ("title", "content", "user_id") VALUES (?, ?, ?)  [["title", "New Article"], ["content", "article content"], ["user_id", "121"]]
 |  |  (1.5ms)  commit transaction
 |  └ (finish) create :article [0.021s]
-|
 |  (0.1ms)  begin transaction
 |  (0.2ms)  INSERT INTO "comments" ("content", "user_id", "article_id") VALUES (?, ?, ?)  [["content", "First!"], ["user_id", "120"], ["article_id", "61"]]
 |  (1.5ms)  commit transaction
 └ (finish) create :comment [0.046s]
+```
+
+To trace without SQL logs, use the following:
+
+``` ruby
+FactoryGirl.trace(sql: false) do
+  FactoryGirl.create(:comment)
+end
 ```
 
 ## Development
