@@ -21,7 +21,6 @@ module FactoryGirl
       if $FACTORY_GIRL_INSTRUMENTS_TRACING
         duration = format("%4.3fs", Time.now - start)
         puts "#{depth}└ (finish) #{signature} [#{duration}]"
-        puts "#{depth}"
 
         $FACTORY_GIRL_INSTRUMENTS_TRACING_DEPTH -= 1
       end
@@ -36,33 +35,45 @@ module FactoryGirlInstruments
     def self.uncolorize(string)
       string.gsub(/\033\[\d+m/, "")
     end
-  end
 
-  module Tracing
-    def trace
-      stdout_log = Logger.new(STDOUT)
-
-      stdout_log.formatter = proc do |severity, datetime, progname, msg|
-        depth = "|  " * ($FACTORY_GIRL_INSTRUMENTS_TRACING_DEPTH - 1)
-
-        msg = FactoryGirlInstruments::TracingHelpers.uncolorize(msg)
-        msg = msg.strip
-        msg = msg.gsub(/^SQL /, "") # remove SQL prefix
-
-        "#{depth}|  \e[36m#{msg}\e[0m\n"
-      end
+    def self.sql_tracer(active)
+      return yield unless active
 
       begin
+        stdout_log = Logger.new($stdout)
+
+        stdout_log.formatter = proc do |severity, datetime, progname, msg|
+          depth = "|  " * ($FACTORY_GIRL_INSTRUMENTS_TRACING_DEPTH - 1)
+
+          msg = FactoryGirlInstruments::TracingHelpers.uncolorize(msg)
+          msg = msg.strip
+          msg = msg.gsub(/^SQL /, "") # remove SQL prefix
+
+          "#{depth}|  \e[36m#{msg}\e[0m\n"
+        end
+
         standard_logger = ActiveRecord::Base.logger
         ActiveRecord::Base.logger = stdout_log
 
+        yield
+      ensure
+        ActiveRecord::Base.logger = standard_logger
+      end
+    end
+  end
+
+  module Tracing
+    def trace(sql: true)
+      result = nil
+
+      begin
         $FACTORY_GIRL_INSTRUMENTS_TRACING = true
         $FACTORY_GIRL_INSTRUMENTS_TRACING_DEPTH = 0
 
-        result = yield
+        FactoryGirlInstruments::TracingHelpers.sql_tracer(sql) do
+          result = yield
+        end
       ensure
-        ActiveRecord::Base.logger = standard_logger
-
         $FACTORY_GIRL_INSTRUMENTS_TRACING = false
         $FACTORY_GIRL_INSTRUMENTS_TRACING_DEPTH = 0
       end
