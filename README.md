@@ -13,6 +13,32 @@ Table of content:
 - [Benchmark all Factories](#benchmarking-all-factory-girl-models)
 - [Trace Factory Girl calls](#tracing-factory-girl-calls)
 
+## Purpose of this gem
+
+Factory Girl is probably the base of your Rails test suite, but how deeply you
+understand the models and the associations that are created in your tests?
+
+Factory Girl Instruments help in these three aspects:
+
+1. Slow test suites: Factory Girl is used for the bulk of tests in Rails. Even a
+   small performance improvement in one of your factories can dramatically
+   improve the speed of your overall test suite.
+
+   Hint: Run `FactoryGirl.benchmark_all`.
+
+2. Deeper understanding of the database state: By tracing factory girl and SQL
+   calls you can get a deeper understanding of what is actually created in your
+   tests, helping you to debug the issues faster.
+
+   Hint: Run `FactoryGirl.trace { FactoryGirl.create(:user) }`.
+
+3. Find issues with missconfigured factories: When a factory is properly set up
+   it is a bliss to work with it. However, if there is a hidden deep in the
+   association chain debugging the created model can be a hellish experience.
+
+   Hint: Run `FactoryGirl.trace { FactoryGirl.create(:user) }` and observe the
+   chain of calls.
+
 ## Install
 
 Add the following to your Gemfile:
