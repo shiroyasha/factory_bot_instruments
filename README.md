@@ -1,41 +1,76 @@
-# Factory Girl Instrument
+# Factory Girl Instruments
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/factory_girl_instruments`. To experiment with that code, run `bin/console` for an interactive prompt.
+This gem provides instruments for benchmarking, tracing, and debugging Factory
+Girl models.
 
-TODO: Delete this and the text above, and describe your gem
+## Setup
 
-## Installation
-
-Add this line to your application's Gemfile:
+Add the following to your Gemfile:
 
 ```ruby
 gem 'factory_girl_instruments'
 ```
 
-And then execute:
+## Benchmarking one Factory Girl model
 
-    $ bundle
+If you have a `user` factory, you can benchmark it with:
 
-Or install it yourself as:
+``` ruby
+FactoryGirl.benchmark(:user)
+```
 
-    $ gem install factory_girl_instruments
+By default, the `FactoryGirl.crete(<model>)` is called. You can pass `:method`
+to override this:
 
-## Usage
+``` ruby
+FactoryGirl.benchmark(:user, :method => :build_stubbed)
+```
 
-TODO: Write usage instructions here
+The above snippet will call `FactoryGirl.build_stubbed(:user)`.
+
+## Benchmarking all Factory Girl models
+
+To collect benchmarking information from all Factory Girl models:
+
+``` ruby
+FactoryGirl.benchmark_all
+```
+
+To skip a factory, pass the `:except` options:
+
+``` ruby
+FactoryGirl.benchmark_all(:except => [:user])
+```
+
+By default, benchmarks for `FactoryGirl.create(<model>)`,
+`FactoryGirl.build(<model>)`, `FactoryGirl.build_stubbed(<model>)` are
+collected. You can override this by passing an array of methods:
+
+``` ruby
+FactoryGirl.benchmark_all(:methods => [:create]) # benchmark only :create
+```
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. Then,
+run `rake spec` to run the tests. You can also run `bin/console` for an
+interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`.
+To release a new version, update the version number in `version.rb`, and then
+run `bundle exec rake release`, which will create a git tag for the version,
+push git commits and tags, and push the `.gem` file
+to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/factory_girl_instruments. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
+Bug reports and pull requests are welcome on GitHub at
+https://github.com/shiroyasha/factory_girl_instruments. This project is intended
+to be a safe, welcoming space for collaboration, and contributors are expected
+to adhere to the [Contributor Covenant](http://contributor-covenant.org) code
+of conduct.
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
+The gem is available as open source under the terms of
+the [MIT License](http://opensource.org/licenses/MIT).
