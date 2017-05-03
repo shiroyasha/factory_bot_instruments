@@ -1,11 +1,11 @@
 require "bundler/setup"
-require "factory_girl_benchmark"
+require "factory_girl_instruments"
 
 require "active_record"
 
 ActiveRecord::Base.establish_connection(
   :adapter  => "sqlite3",
-  :database => "factory_girl_benchmark_test.db"
+  :database => "factory_girl_instruments_test.db"
 )
 
 ActiveRecord::Schema.define do

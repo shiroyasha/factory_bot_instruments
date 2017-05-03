@@ -14,18 +14,18 @@ module IOHelper
   end
 end
 
-RSpec.describe FactoryGirlBenchmark do
+RSpec.describe FactoryGirlInstruments do
   it "has a version number" do
-    expect(FactoryGirlBenchmark::VERSION).not_to be_nil
+    expect(FactoryGirlInstruments::VERSION).not_to be_nil
   end
 
   describe ".run" do
     it "keeps the db clean" do
-      expect { FactoryGirlBenchmark.run }.to_not change { User.count }
+      expect { FactoryGirlInstruments.run }.to_not change { User.count }
     end
 
     it "prints the benchmark on STDOUT" do
-      output = IOHelper.capture { FactoryGirlBenchmark.run }
+      output = IOHelper.capture { FactoryGirlInstruments.run }
 
       output.split("\n") do |line|
         expect(line).to match(/\d+.\d+s\: FactoryGirl\..+\(\:.+\)/)
@@ -35,18 +35,18 @@ RSpec.describe FactoryGirlBenchmark do
 
   describe ".benchmark_all" do
     it "keeps the db clean" do
-      expect { FactoryGirlBenchmark.benchmark_all }.to_not change { User.count }
+      expect { FactoryGirlInstruments.benchmark_all }.to_not change { User.count }
     end
 
     it "benchmarks all factories" do
-      benchmarked_factories = FactoryGirlBenchmark.benchmark_all.map(&:factory)
+      benchmarked_factories = FactoryGirlInstruments.benchmark_all.map(&:factory)
 
       expect(benchmarked_factories).to include(:user)
       expect(benchmarked_factories).to include(:article)
     end
 
     it "benchmarks by create, build, and build_stubbed by default" do
-      benchmarked_methods = FactoryGirlBenchmark.benchmark_all.map(&:method)
+      benchmarked_methods = FactoryGirlInstruments.benchmark_all.map(&:method)
 
       expect(benchmarked_methods).to include(:create)
       expect(benchmarked_methods).to include(:build_stubbed)
@@ -55,7 +55,7 @@ RSpec.describe FactoryGirlBenchmark do
 
     describe "limiting factory girl methods" do
       it "runs only passed factory girl methods" do
-        benchmarked_methods = FactoryGirlBenchmark.benchmark_all(:methods => [:create, :build]).map(&:method)
+        benchmarked_methods = FactoryGirlInstruments.benchmark_all(:methods => [:create, :build]).map(&:method)
 
         expect(benchmarked_methods).to include(:create)
         expect(benchmarked_methods).to include(:build)
@@ -66,7 +66,7 @@ RSpec.describe FactoryGirlBenchmark do
 
     describe "skipping factories" do
       it "skipps passed factories" do
-        benchmarked_factories = FactoryGirlBenchmark.benchmark_all(:except => [:article]).map(&:factory)
+        benchmarked_factories = FactoryGirlInstruments.benchmark_all(:except => [:article]).map(&:factory)
 
         expect(benchmarked_factories).to include(:user)
         expect(benchmarked_factories).to_not include(:article)
@@ -76,29 +76,29 @@ RSpec.describe FactoryGirlBenchmark do
 
   describe ".benchmark" do
     it "keeps the db clean" do
-      expect { FactoryGirlBenchmark.benchmark(:user) }.to_not change { User.count }
+      expect { FactoryGirlInstruments.benchmark(:user) }.to_not change { User.count }
     end
 
     it "returns the duration in seconds" do
-      expect(FactoryGirlBenchmark.benchmark(:user)).to be_instance_of(FactoryGirlBenchmark::Benchmark)
+      expect(FactoryGirlInstruments.benchmark(:user)).to be_instance_of(FactoryGirlInstruments::Benchmark)
     end
 
     it "measures 'FactoryGirl.create' by default" do
       expect(FactoryGirl).to receive(:create)
 
-      FactoryGirlBenchmark.benchmark(:user)
+      FactoryGirlInstruments.benchmark(:user)
     end
 
     it "can measure 'FactoryGirl.build'" do
       expect(FactoryGirl).to receive(:build)
 
-      FactoryGirlBenchmark.benchmark(:user, :method => :build)
+      FactoryGirlInstruments.benchmark(:user, :method => :build)
     end
 
     it "can measure 'FactoryGirl.build_stubbed'" do
       expect(FactoryGirl).to receive(:build_stubbed)
 
-      FactoryGirlBenchmark.benchmark(:user, :method => :build_stubbed)
+      FactoryGirlInstruments.benchmark(:user, :method => :build_stubbed)
     end
   end
 end

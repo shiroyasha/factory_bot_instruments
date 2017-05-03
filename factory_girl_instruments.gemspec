@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'factory_girl_benchmark/version'
+require 'factory_girl_instruments/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "factory_girl_benchmark"
-  spec.version       = FactoryGirlBenchmark::VERSION
+  spec.name          = "factory_girl_instruments"
+  spec.version       = FactoryGirlInstruments::VERSION
   spec.authors       = ["Igor Šarčević"]
   spec.email         = ["igor@renderedtext.com"]
 
-  spec.summary       = %q{Benchmark for Factory Girl models}
-  spec.description   = %q{Benchmark for Factory Girl models}
-  spec.homepage      = "https://github.com/shiroyasha/factory_girl_benchmark"
+  spec.summary       = %q{Instruments for Factory Girl}
+  spec.description   = %q{Instruments for Factory Girl}
+  spec.homepage      = "https://github.com/shiroyasha/factory_girl_instruments"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

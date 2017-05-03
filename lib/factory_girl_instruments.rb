@@ -1,9 +1,9 @@
-require "factory_girl_benchmark/version"
+require "factory_girl_instruments/version"
 
 require "factory_girl"
 require "active_record"
 
-module FactoryGirlBenchmark
+module FactoryGirlInstruments
 
   Benchmark = Struct.new(:factory, :method, :duration) do
     def to_s
