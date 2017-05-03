@@ -65,7 +65,7 @@ If you have a `user` factory, you can benchmark it with:
 FactoryGirl.benchmark(:user)
 ```
 
-By default, the `FactoryGirl.crete(<model>)` is called. You can pass `:method`
+By default, the `FactoryGirl.create(<model>)` is called. You can pass `:method`
 to override this:
 
 ``` ruby
