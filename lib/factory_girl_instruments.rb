@@ -4,8 +4,10 @@ require "factory_girl"
 require "active_record"
 
 require_relative "factory_girl_instruments/benchmarking"
+require_relative "factory_girl_instruments/tracing"
 
 FactoryGirl.extend(FactoryGirlInstruments::Benchmarking)
+FactoryGirl.extend(FactoryGirlInstruments::Tracing)
 
 module FactoryGirlInstruments
 

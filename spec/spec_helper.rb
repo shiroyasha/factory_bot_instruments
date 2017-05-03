@@ -23,6 +23,14 @@ ActiveRecord::Schema.define do
       table.column :user_id, :string
     end
   end
+
+  unless ActiveRecord::Base.connection.tables.include? 'comments'
+    create_table :comments do |table|
+      table.column :content,    :string
+      table.column :user_id,    :string
+      table.column :article_id, :string
+    end
+  end
 end
 
 Dir["spec/models/*.rb"].each { |f| require "./#{f}" }

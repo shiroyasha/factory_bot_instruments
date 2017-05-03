@@ -50,6 +50,44 @@ collected. You can override this by passing an array of methods:
 FactoryGirl.benchmark_all(:methods => [:create]) # benchmark only :create
 ```
 
+## Tracing Factory Girl calls
+
+To trace factory girl actions, wrap your call in the `FactoryGirl.trace` method:
+
+``` ruby
+FactoryGirl.trace do
+  FactoryGirl.create(:comment)
+end
+```
+
+The above snippet will output the following tree:
+
+``` txt
+┌ (start) create :comment
+|  ┌ (start) create :user
+|  |  (0.1ms)  begin transaction
+|  |  (0.4ms)  INSERT INTO "users" ("name", "username") VALUES (?, ?)  [["name", "Peter Parker"], ["username", "spiderman"]]
+|  |  (2.3ms)  commit transaction
+|  └ (finish) create :user [0.010s]
+|
+|  ┌ (start) create :article
+|  |  ┌ (start) create :user
+|  |  |  (0.1ms)  begin transaction
+|  |  |  (0.3ms)  INSERT INTO "users" ("name", "username") VALUES (?, ?)  [["name", "Peter Parker"], ["username", "spiderman"]]
+|  |  |  (1.8ms)  commit transaction
+|  |  └ (finish) create :user [0.007s]
+|  |
+|  |  (0.1ms)  begin transaction
+|  |  (0.2ms)  INSERT INTO "articles" ("title", "content", "user_id") VALUES (?, ?, ?)  [["title", "New Article"], ["content", "article content"], ["user_id", "121"]]
+|  |  (1.5ms)  commit transaction
+|  └ (finish) create :article [0.021s]
+|
+|  (0.1ms)  begin transaction
+|  (0.2ms)  INSERT INTO "comments" ("content", "user_id", "article_id") VALUES (?, ?, ?)  [["content", "First!"], ["user_id", "120"], ["article_id", "61"]]
+|  (1.5ms)  commit transaction
+└ (finish) create :comment [0.046s]
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then,
