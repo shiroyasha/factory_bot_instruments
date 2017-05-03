@@ -13,12 +13,24 @@ module FactoryGirlBenchmark
     end
   end
 
-  def self.run
-    benchmark_all.each { |benchmark| puts benchmark }
+  def self.run(options = {})
+    default_options = { :progress => true }
+
+    benchmark_all(default_options.merge(options)).each do |benchmark|
+      puts benchmark
+    end
   end
 
-  def self.benchmark_all(methods: [:create, :build, :build_stubbed])
-    report = FactoryGirl.factories.map(&:name).map do |factory|
+  def self.benchmark_all(
+    except: [],
+    methods: [:create, :build, :build_stubbed],
+    progress: false)
+
+    factories = FactoryGirl.factories.map(&:name) - except
+
+    report = factories.map do |factory|
+      puts "Processing #{factory}" if progress
+
       methods.map do |method|
         benchmark(factory, :method => method)
       end
