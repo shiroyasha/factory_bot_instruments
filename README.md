@@ -27,7 +27,9 @@ To install the gem manually from your shell, run:
 gem install factory_girl_instruments
 ```
 
-## Benchmarking one Factory Girl model
+## Documentation
+
+### Benchmarking one Factory Girl model
 
 If you have a `user` factory, you can benchmark it with:
 
@@ -44,7 +46,7 @@ FactoryGirl.benchmark(:user, :method => :build_stubbed)
 
 The above snippet will call `FactoryGirl.build_stubbed(:user)`.
 
-## Benchmarking all Factory Girl models
+### Benchmarking all Factory Girl models
 
 To collect benchmarking information from all Factory Girl models:
 
@@ -66,7 +68,7 @@ collected. You can override this by passing an array of methods:
 FactoryGirl.benchmark_all(:methods => [:create]) # benchmark only :create
 ```
 
-## Tracing Factory Girl calls
+### Tracing Factory Girl calls
 
 To trace factory girl actions, wrap your call in the `FactoryGirl.trace` method:
 
