@@ -15,6 +15,14 @@ ActiveRecord::Schema.define do
       table.column :username, :string
     end
   end
+
+  unless ActiveRecord::Base.connection.tables.include? 'articles'
+    create_table :articles do |table|
+      table.column :title,   :string
+      table.column :content, :string
+      table.column :user_id, :string
+    end
+  end
 end
 
 Dir["spec/models/*.rb"].each { |f| require "./#{f}" }
