@@ -11,12 +11,20 @@ Table of content:
 - [Benchmark all Factories](#benchmarking-all-factory-girl-models)
 - [Trace Factory Girl calls](#tracing-factory-girl-calls)
 
-## Setup
+## Install
 
 Add the following to your Gemfile:
 
 ```ruby
 gem 'factory_girl_instruments'
+```
+
+and run `bundle install` from your shell.
+
+To install the gem manually from your shell, run:
+
+``` ruby
+gem install factory_girl_instruments
 ```
 
 ## Benchmarking one Factory Girl model
