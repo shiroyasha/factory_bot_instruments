@@ -10,11 +10,11 @@ module FactoryGirlBenchmark
     end
   end
 
-  def self.benchmark(factory)
+  def self.benchmark(factory, method: :create)
     start = Time.now
 
     ActiveRecord::Base.transaction do
-      FactoryGirl.create(factory)
+      FactoryGirl.public_send(method, factory)
 
       raise ActiveRecord::Rollback
     end

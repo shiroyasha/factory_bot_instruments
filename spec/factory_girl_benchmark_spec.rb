@@ -19,5 +19,23 @@ RSpec.describe FactoryGirlBenchmark do
     it "returns the duration in seconds" do
       expect(FactoryGirlBenchmark.benchmark(:user)).to be_instance_of(Float)
     end
+
+    it "measures 'FactoryGirl.create' by default" do
+      expect(FactoryGirl).to receive(:create)
+
+      FactoryGirlBenchmark.benchmark(:user)
+    end
+
+    it "can measure 'FactoryGirl.build'" do
+      expect(FactoryGirl).to receive(:build)
+
+      FactoryGirlBenchmark.benchmark(:user, :method => :build)
+    end
+
+    it "can measure 'FactoryGirl.build_stubbed'" do
+      expect(FactoryGirl).to receive(:build_stubbed)
+
+      FactoryGirlBenchmark.benchmark(:user, :method => :build_stubbed)
+    end
   end
 end
