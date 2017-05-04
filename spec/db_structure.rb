@@ -2,7 +2,7 @@ require "active_record"
 
 ActiveRecord::Base.establish_connection(
   :adapter  => "sqlite3",
-  :database => "factory_girl_instruments_test.db"
+  :database => "/tmp/factory_girl_instruments_test.db"
 )
 
 ActiveRecord::Schema.define do
