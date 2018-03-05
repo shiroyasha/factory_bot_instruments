@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'factory_girl_instruments/version'
+require 'factory_bot_instruments/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "factory_girl_instruments"
-  spec.version       = FactoryGirlInstruments::VERSION
+  spec.name          = "factory_bot_instruments"
+  spec.version       = FactoryBotInstruments::VERSION
   spec.authors       = ["Igor Šarčević"]
   spec.email         = ["igor@renderedtext.com"]
 
-  spec.summary       = %q{Instruments for Factory Girl}
-  spec.description   = %q{Instruments for Factory Girl}
+  spec.summary       = %q{Instruments for Factory Bot}
+  spec.description   = %q{Instruments for Factory Bot}
   spec.homepage      = "https://github.com/shiroyasha/factory_girl_instruments"
   spec.license       = "MIT"
 
@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "factory_girl", "~> 4.5"
+  spec.add_dependency "factory_bot", "~> 4.5"
   spec.add_dependency "activerecord", ">= 4.0"
 
   spec.add_development_dependency "bundler", "~> 1.12"
