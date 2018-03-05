@@ -1,11 +1,11 @@
-module FactoryGirlInstruments
+module FactoryBotInstruments
   module Benchmarking
     def benchmark_all(
       except: [],
       methods: [:create, :build, :build_stubbed],
       progress: false)
 
-      factories = FactoryGirl.factories.map(&:name) - except
+      factories = FactoryBot.factories.map(&:name) - except
 
       report = factories.map do |factory|
         puts "Processing #{factory}" if progress
@@ -22,7 +22,7 @@ module FactoryGirlInstruments
       start = Time.now
 
       ActiveRecord::Base.transaction do
-        FactoryGirl.public_send(method, factory)
+        FactoryBot.public_send(method, factory)
 
         raise ActiveRecord::Rollback
       end
@@ -35,7 +35,7 @@ module FactoryGirlInstruments
     def to_s
       formated_duration = format("%5.3fs", duration)
 
-      "#{formated_duration}: FactoryGirl.#{method}(:#{factory})"
+      "#{formated_duration}: FactoryBot.#{method}(:#{factory})"
     end
   end
 end

@@ -1,42 +1,42 @@
-# Factory Girl Instruments
+# Factory Bot Instruments
 
 [![Build Status](https://semaphoreci.com/api/v1/shiroyasha/factory_girl_instruments/branches/master/badge.svg)](https://semaphoreci.com/shiroyasha/factory_girl_instruments)
 [![Gem Version](https://badge.fury.io/rb/factory_girl_instruments.svg)](https://badge.fury.io/rb/factory_girl_instruments)
 
 Instruments for benchmarking, tracing, and debugging
-[Factory Girl](https://github.com/thoughtbot/factory_girl) models.
+[Factory Bot](https://github.com/thoughtbot/factory_bot) models.
 
 Table of content:
 
 - [Setup](#setup)
-- [Benchmark one Factory](#benchmarking-one-factory-girl-model)
-- [Benchmark all Factories](#benchmarking-all-factory-girl-models)
-- [Trace Factory Girl calls](#tracing-factory-girl-calls)
+- [Benchmark one Factory](#benchmarking-one-factory-bot-model)
+- [Benchmark all Factories](#benchmarking-all-factory-bot-models)
+- [Trace Factory Bot calls](#tracing-factory-bot-calls)
 
 ## Purpose of this gem
 
-Factory Girl is probably the base of your Rails test suite, but how deeply you
+Factory Bot is probably the base of your Rails test suite, but how deeply you
 understand the models and the associations that are created in your tests?
 
-Factory Girl Instruments help in these three aspects:
+Factory Bot Instruments help in these three aspects:
 
-1. Slow test suites: Factory Girl is used for the bulk of tests in Rails. Even a
+1. Slow test suites: Factory Bot is used for the bulk of tests in Rails. Even a
    small performance improvement in one of your factories can dramatically
    improve the speed of your overall test suite.
 
-   Hint: Run `FactoryGirl.benchmark_all`.
+   Hint: Run `FactoryBot.benchmark_all`.
 
-2. Deeper understanding of the database state: By tracing factory girl and SQL
+2. Deeper understanding of the database state: By tracing factory bot and SQL
    calls you can get a deeper understanding of what is actually created in your
    tests, helping you to debug the issues faster.
 
-   Hint: Run `FactoryGirl.trace { FactoryGirl.create(:user) }`.
+   Hint: Run `FactoryBot.trace { FactoryBot.create(:user) }`.
 
 3. Find issues with missconfigured factories: When a factory is properly set up
    it is a bliss to work with it. However, if there is a hidden deep in the
    association chain debugging the created model can be a hellish experience.
 
-   Hint: Run `FactoryGirl.trace { FactoryGirl.create(:user) }` and observe the
+   Hint: Run `FactoryBot.trace { FactoryBot.create(:user) }` and observe the
    chain of calls.
 
 ## Install
@@ -44,7 +44,7 @@ Factory Girl Instruments help in these three aspects:
 Add the following to your Gemfile:
 
 ```ruby
-gem 'factory_girl_instruments'
+gem 'factory_bot_instruments'
 ```
 
 and run `bundle install` from your shell.
@@ -52,57 +52,57 @@ and run `bundle install` from your shell.
 To install the gem manually from your shell, run:
 
 ``` ruby
-gem install factory_girl_instruments
+gem install factory_bot_instruments
 ```
 
 ## Documentation
 
-### Benchmarking one Factory Girl model
+### Benchmarking one Factory Bot model
 
 If you have a `user` factory, you can benchmark it with:
 
 ``` ruby
-FactoryGirl.benchmark(:user)
+FactoryBot.benchmark(:user)
 ```
 
-By default, the `FactoryGirl.create(<model>)` is called. You can pass `:method`
+By default, the `FactoryBot.create(<model>)` is called. You can pass `:method`
 to override this:
 
 ``` ruby
-FactoryGirl.benchmark(:user, :method => :build_stubbed)
+FactoryBot.benchmark(:user, :method => :build_stubbed)
 ```
 
-The above snippet will call `FactoryGirl.build_stubbed(:user)`.
+The above snippet will call `FactoryBot.build_stubbed(:user)`.
 
-### Benchmarking all Factory Girl models
+### Benchmarking all Factory Bot models
 
-To collect benchmarking information from all Factory Girl models:
+To collect benchmarking information from all Factory Bot models:
 
 ``` ruby
-FactoryGirl.benchmark_all
+FactoryBot.benchmark_all
 ```
 
 To skip a factory, pass the `:except` options:
 
 ``` ruby
-FactoryGirl.benchmark_all(:except => [:user])
+FactoryBot.benchmark_all(:except => [:user])
 ```
 
-By default, benchmarks for `FactoryGirl.create(<model>)`,
-`FactoryGirl.build(<model>)`, `FactoryGirl.build_stubbed(<model>)` are
+By default, benchmarks for `FactoryBot.create(<model>)`,
+`FactoryBot.build(<model>)`, `FactoryBot.build_stubbed(<model>)` are
 collected. You can override this by passing an array of methods:
 
 ``` ruby
-FactoryGirl.benchmark_all(:methods => [:create]) # benchmark only :create
+FactoryBot.benchmark_all(:methods => [:create]) # benchmark only :create
 ```
 
-### Tracing Factory Girl calls
+### Tracing Factory Bot calls
 
-To trace factory girl actions, wrap your call in the `FactoryGirl.trace` method:
+To trace factory Bot actions, wrap your call in the `FactoryBot.trace` method:
 
 ``` ruby
-FactoryGirl.trace do
-  FactoryGirl.create(:comment)
+FactoryBot.trace do
+  FactoryBot.create(:comment)
 end
 ```
 
@@ -134,8 +134,8 @@ The above snippet will output the following tree:
 To trace without SQL logs, use the following:
 
 ``` ruby
-FactoryGirl.trace(sql: false) do
-  FactoryGirl.create(:comment)
+FactoryBot.trace(sql: false) do
+  FactoryBot.create(:comment)
 end
 ```
 

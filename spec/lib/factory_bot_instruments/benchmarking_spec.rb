@@ -1,30 +1,30 @@
 require "spec_helper"
 
-RSpec.describe FactoryGirlInstruments::Benchmarking do
+RSpec.describe FactoryBotInstruments::Benchmarking do
 
   describe ".benchmark_all" do
     it "keeps the db clean" do
-      expect { FactoryGirl.benchmark_all }.to_not change { User.count }
+      expect { FactoryBot.benchmark_all }.to_not change { User.count }
     end
 
     it "benchmarks all factories" do
-      benchmarked_factories = FactoryGirl.benchmark_all.map(&:factory)
+      benchmarked_factories = FactoryBot.benchmark_all.map(&:factory)
 
       expect(benchmarked_factories).to include(:user)
       expect(benchmarked_factories).to include(:article)
     end
 
     it "benchmarks by create, build, and build_stubbed by default" do
-      benchmarked_methods = FactoryGirl.benchmark_all.map(&:method)
+      benchmarked_methods = FactoryBot.benchmark_all.map(&:method)
 
       expect(benchmarked_methods).to include(:create)
       expect(benchmarked_methods).to include(:build_stubbed)
       expect(benchmarked_methods).to include(:build)
     end
 
-    describe "limiting factory girl methods" do
-      it "runs only passed factory girl methods" do
-        benchmarked_methods = FactoryGirl.benchmark_all(:methods => [:create, :build]).map(&:method)
+    describe "limiting factory bot methods" do
+      it "runs only passed factory bot methods" do
+        benchmarked_methods = FactoryBot.benchmark_all(:methods => [:create, :build]).map(&:method)
 
         expect(benchmarked_methods).to include(:create)
         expect(benchmarked_methods).to include(:build)
@@ -35,7 +35,7 @@ RSpec.describe FactoryGirlInstruments::Benchmarking do
 
     describe "skipping factories" do
       it "skipps passed factories" do
-        benchmarked_factories = FactoryGirl.benchmark_all(:except => [:article]).map(&:factory)
+        benchmarked_factories = FactoryBot.benchmark_all(:except => [:article]).map(&:factory)
 
         expect(benchmarked_factories).to include(:user)
         expect(benchmarked_factories).to_not include(:article)
@@ -45,29 +45,29 @@ RSpec.describe FactoryGirlInstruments::Benchmarking do
 
   describe ".benchmark" do
     it "keeps the db clean" do
-      expect { FactoryGirl.benchmark(:user) }.to_not change { User.count }
+      expect { FactoryBot.benchmark(:user) }.to_not change { User.count }
     end
 
     it "returns the duration in seconds" do
-      expect(FactoryGirl.benchmark(:user)).to be_instance_of(FactoryGirlInstruments::Benchmark)
+      expect(FactoryBot.benchmark(:user)).to be_instance_of(FactoryBotInstruments::Benchmark)
     end
 
-    it "measures 'FactoryGirl.create' by default" do
-      expect(FactoryGirl).to receive(:create)
+    it "measures 'FactoryBot.create' by default" do
+      expect(FactoryBot).to receive(:create)
 
-      FactoryGirl.benchmark(:user)
+      FactoryBot.benchmark(:user)
     end
 
-    it "can measure 'FactoryGirl.build'" do
-      expect(FactoryGirl).to receive(:build)
+    it "can measure 'FactoryBot.build'" do
+      expect(FactoryBot).to receive(:build)
 
-      FactoryGirl.benchmark(:user, :method => :build)
+      FactoryBot.benchmark(:user, :method => :build)
     end
 
-    it "can measure 'FactoryGirl.build_stubbed'" do
-      expect(FactoryGirl).to receive(:build_stubbed)
+    it "can measure 'FactoryBot.build_stubbed'" do
+      expect(FactoryBot).to receive(:build_stubbed)
 
-      FactoryGirl.benchmark(:user, :method => :build_stubbed)
+      FactoryBot.benchmark(:user, :method => :build_stubbed)
     end
   end
 end

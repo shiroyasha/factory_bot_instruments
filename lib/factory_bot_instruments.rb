@@ -1,20 +1,20 @@
-require "factory_girl_instruments/version"
+require "factory_bot_instruments/version"
 
-require "factory_girl"
+require "factory_bot"
 require "active_record"
 
-require_relative "factory_girl_instruments/benchmarking"
-require_relative "factory_girl_instruments/tracing"
+require_relative "factory_bot_instruments/benchmarking"
+require_relative "factory_bot_instruments/tracing"
 
-FactoryGirl.extend(FactoryGirlInstruments::Benchmarking)
-FactoryGirl.extend(FactoryGirlInstruments::Tracing)
+FactoryBot.extend(FactoryBotInstruments::Benchmarking)
+FactoryBot.extend(FactoryBotInstruments::Tracing)
 
-module FactoryGirlInstruments
+module FactoryBotInstruments
 
   def self.benchmark_report(options = {})
     options = { :progress => true }.merge(options)
 
-    FactoryGirl.benchmark_all(options).each do |benchmark|
+    FactoryBot.benchmark_all(options).each do |benchmark|
       puts benchmark
     end
   end

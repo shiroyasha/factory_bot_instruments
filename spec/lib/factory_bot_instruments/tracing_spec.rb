@@ -1,20 +1,20 @@
 require "spec_helper"
 
-RSpec.describe FactoryGirlInstruments::Tracing do
+RSpec.describe FactoryBotInstruments::Tracing do
 
   describe ".trace" do
     context "default options" do
       before do
         @output = IOHelper.capture do
-          FactoryGirl.trace { FactoryGirl.create(:comment) }
+          FactoryBot.trace { FactoryBot.create(:comment) }
         end
 
         puts @output
 
-        @output = FactoryGirlInstruments::TracingHelpers.uncolorize(@output)
+        @output = FactoryBotInstruments::TracingHelpers.uncolorize(@output)
       end
 
-      it "prints the factory girl steps" do
+      it "prints the factory bot steps" do
         expect(@output).to include("(start) create :comment")
         expect(@output).to include("(start) create :article")
         expect(@output).to include("(start) create :user")
@@ -32,15 +32,15 @@ RSpec.describe FactoryGirlInstruments::Tracing do
     context "without SQL logs" do
       before do
         @output = IOHelper.capture do
-          FactoryGirl.trace(:sql => false) { FactoryGirl.create(:comment) }
+          FactoryBot.trace(:sql => false) { FactoryBot.create(:comment) }
         end
 
         puts @output
 
-        @output = FactoryGirlInstruments::TracingHelpers.uncolorize(@output)
+        @output = FactoryBotInstruments::TracingHelpers.uncolorize(@output)
       end
 
-      it "prints the factory girl steps" do
+      it "prints the factory bot steps" do
         expect(@output).to include("(start) create :comment")
         expect(@output).to include("(start) create :article")
         expect(@output).to include("(start) create :user")

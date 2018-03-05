@@ -1,28 +1,28 @@
-$FACTORY_GIRL_INSTRUMENTS_TRACING = false
-$FACTORY_GIRL_INSTRUMENTS_TRACING_DEPTH = 0
+$FACTORY_BOT_INSTRUMENTS_TRACING = false
+$FACTORY_BOT_INSTRUMENTS_TRACING_DEPTH = 0
 
 # monkey patch Factory#run
-module FactoryGirl
+module FactoryBot
   class Factory
     alias_method :original_run, :run
 
     def run(build_strategy, overrides, &block)
-      if $FACTORY_GIRL_INSTRUMENTS_TRACING
-        depth     = "|  " * $FACTORY_GIRL_INSTRUMENTS_TRACING_DEPTH
+      if $FACTORY_BOT_INSTRUMENTS_TRACING
+        depth     = "|  " * $FACTORY_BOT_INSTRUMENTS_TRACING_DEPTH
         signature = "#{build_strategy} \e[32m:#{@name}\e[0m"
         start     = Time.now
 
         puts "#{depth}┌ (start) #{signature}"
-        $FACTORY_GIRL_INSTRUMENTS_TRACING_DEPTH += 1
+        $FACTORY_BOT_INSTRUMENTS_TRACING_DEPTH += 1
       end
 
       result = original_run(build_strategy, overrides, &block)
 
-      if $FACTORY_GIRL_INSTRUMENTS_TRACING
+      if $FACTORY_BOT_INSTRUMENTS_TRACING
         duration = format("%4.3fs", Time.now - start)
         puts "#{depth}└ (finish) #{signature} [#{duration}]"
 
-        $FACTORY_GIRL_INSTRUMENTS_TRACING_DEPTH -= 1
+        $FACTORY_BOT_INSTRUMENTS_TRACING_DEPTH -= 1
       end
 
       result
@@ -30,7 +30,7 @@ module FactoryGirl
   end
 end
 
-module FactoryGirlInstruments
+module FactoryBotInstruments
   module TracingHelpers
     def self.uncolorize(string)
       string.gsub(/\033\[\d+m/, "")
@@ -43,9 +43,9 @@ module FactoryGirlInstruments
         stdout_log = Logger.new($stdout)
 
         stdout_log.formatter = proc do |severity, datetime, progname, msg|
-          depth = "|  " * ($FACTORY_GIRL_INSTRUMENTS_TRACING_DEPTH - 1)
+          depth = "|  " * ($FACTORY_BOT_INSTRUMENTS_TRACING_DEPTH - 1)
 
-          msg = FactoryGirlInstruments::TracingHelpers.uncolorize(msg)
+          msg = FactoryBotInstruments::TracingHelpers.uncolorize(msg)
           msg = msg.strip
           msg = msg.gsub(/^SQL /, "") # remove SQL prefix
 
@@ -67,15 +67,15 @@ module FactoryGirlInstruments
       result = nil
 
       begin
-        $FACTORY_GIRL_INSTRUMENTS_TRACING = true
-        $FACTORY_GIRL_INSTRUMENTS_TRACING_DEPTH = 0
+        $FACTORY_BOT_INSTRUMENTS_TRACING = true
+        $FACTORY_BOT_INSTRUMENTS_TRACING_DEPTH = 0
 
-        FactoryGirlInstruments::TracingHelpers.sql_tracer(sql) do
+        FactoryBotInstruments::TracingHelpers.sql_tracer(sql) do
           result = yield
         end
       ensure
-        $FACTORY_GIRL_INSTRUMENTS_TRACING = false
-        $FACTORY_GIRL_INSTRUMENTS_TRACING_DEPTH = 0
+        $FACTORY_BOT_INSTRUMENTS_TRACING = false
+        $FACTORY_BOT_INSTRUMENTS_TRACING_DEPTH = 0
       end
 
       result
