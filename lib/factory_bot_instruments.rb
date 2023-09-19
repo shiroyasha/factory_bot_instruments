@@ -14,7 +14,7 @@ module FactoryBotInstruments
   def self.benchmark_report(options = {})
     options = { :progress => true }.merge(options)
 
-    FactoryBot.benchmark_all(options).each do |benchmark|
+    FactoryBot.benchmark_all(**options).each do |benchmark|
       puts benchmark
     end
   end
