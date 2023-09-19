@@ -1,0 +1,17 @@
+version: v1.0
+name: Ruby
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+blocks:
+  - name: bundle exec rspec
+    task:
+      jobs:
+        - name: rspec
+          commands:
+            - checkout
+            - sem-version ruby 3.2.0
+            - 'gem install bundler:1.17.3'
+            - bundle install
+            - bundle exec rspec
