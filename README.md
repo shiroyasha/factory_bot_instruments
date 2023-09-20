@@ -1,7 +1,6 @@
 # Factory Bot Instruments
 
-[![Build Status](https://semaphoreci.com/api/v1/shiroyasha/factory_girl_instruments/branches/master/badge.svg)](https://semaphoreci.com/shiroyasha/factory_girl_instruments)
-[![Gem Version](https://badge.fury.io/rb/factory_girl_instruments.svg)](https://badge.fury.io/rb/factory_girl_instruments)
+[![Gem Version](https://badge.fury.io/rb/factory_bot_instruments.svg)](https://badge.fury.io/rb/factory_bot_instruments)
 
 Instruments for benchmarking, tracing, and debugging
 [Factory Bot](https://github.com/thoughtbot/factory_bot) models.
