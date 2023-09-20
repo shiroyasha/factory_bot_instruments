@@ -12,10 +12,12 @@ RSpec.describe FactoryBotInstruments do
     end
 
     it "prints the benchmark on STDOUT" do
-      output = IOHelper.capture { FactoryBotInstruments.benchmark_report }
+      output = IOHelper.capture do
+        FactoryBotInstruments.benchmark_report(progress: false)
+      end
 
       output.split("\n") do |line|
-        expect(line).to match(/\d+.\d+s\: Factory\..+\(\:.+\)/)
+        expect(line).to match(/\d+.\d+s\: FactoryBot\..+\(\:.+\)/)
       end
     end
   end
