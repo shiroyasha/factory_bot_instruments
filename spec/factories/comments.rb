@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :comment do
-    content "First!"
+    content { "First!" }
 
     user
     article
